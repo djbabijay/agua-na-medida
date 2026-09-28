@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Economia de Água - Feira de Ciências 8º Ano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f9ff;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.1), 0 8px 10px -6px rgba(14, 165, 233, 0.1);
+        }
+        /* Custom range slider thumb */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #0284c7;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+            transition: transform 0.1s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between p-3 md:p-6">
+
+    <header class="max-w-5xl mx-auto w-full mb-6">
+        <div class="gradient-bg text-white rounded-3xl p-6 md:p-8 shadow-xl flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+            <div class="z-10 text-center md:text-left">
+                <span class="inline-block bg-sky-400/30 text-sky-100 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-sky-300/30">
+                    🔬 Feira de Ciências - 8º Ano
+                </span>
+                <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight flex items-center justify-center md:justify-start gap-3">
+                    <i data-lucide="droplets" class="w-8 h-8 text-sky-300"></i>
+                    Calculadora de Água
+                </h1>
+                <p class="text-sky-100 text-sm md:text-base mt-1 max-full">
+                    Descubra o impacto dos seus hábitos diários e aprenda como economizar milhares de litros!
+                </p>
+            </div>
+            <div class="z-10 bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center border border-white/20 min-w-[160px]">
+                <p class="text-xs uppercase text-sky-200 font-bold">Meta da ONU/OMS</p>
+                <p class="text-2xl font-black text-white">110 Litros</p>
+                <p class="text-[11px] text-sky-200">por pessoa / dia</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow">
+
+        <!-- Painel de Controles (Interativo) -->
+        <section class="lg:col-span-7 bg-white rounded-3xl p-6 border border-sky-100 card-shadow flex flex-col justify-between space-y-6">
+            <div>
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-4">
+                    <i data-lucide="sliders" class="w-5 h-5 text-sky-600"></i>
+                    Seus Hábitos Diários
+                </h2>
+
+                <div class="space-y-6">
+
+                    <!-- HÁBITO 1: BANHO -->
+                    <div class="bg-sky-50/60 p-4 rounded-2xl border border-sky-100">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="font-bold text-slate-700 flex items-center gap-2 text-sm md:text-base">
+                                <span class="p-2 bg-sky-100 text-sky-600 rounded-xl"><i data-lucide="shower-head" class="w-5 h-5"></i></span>
+                                Tempo no Banho
+                            </label>
+                            <span class="text-sky-700 font-extrabold bg-sky-100 px-3 py-1 rounded-xl text-sm" id="shower-val">15 min</span>
+                        </div>
+                        <input type="range" id="shower-input" min="3" max="30" value="15" class="w-full h-2 bg-sky-200 rounded-lg appearance-none cursor-pointer accent-sky-600">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1 font-semibold">
+                            <span>3 min (Econômico)</span>
+                            <span>15 min (Médio)</span>
+                            <span>30 min (Alto)</span>
+                        </div>
+                    </div>
+
+                    <!-- HÁBITO 2: ESCOVAR OS DENTES -->
+                    <div class="bg-sky-50/60 p-4 rounded-2xl border border-sky-100">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="font-bold text-slate-700 flex items-center gap-2 text-sm md:text-base">
+                                <span class="p-2 bg-sky-100 text-sky-600 rounded-xl"><i data-lucide="sparkles" class="w-5 h-5"></i></span>
+                                Escovar os Dentes
+                            </label>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg text-slate-500 bg-white" id="teeth-status-badge">
+                                Torneira Aberta
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" id="teeth-open" class="py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm border-2 transition-all flex items-center justify-center gap-2 border-sky-600 bg-sky-600 text-white">
+                                <i data-lucide="droplet" class="w-4 h-4"></i> Torneira Aberta
+                            </button>
+                            <button type="button" id="teeth-closed" class="py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm border-2 border-slate-200 bg-white text-slate-600 hover:border-sky-300 transition-all flex items-center justify-center gap-2">
+                                <i data-lucide="x-circle" class="w-4 h-4"></i> Torneira Fechada
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- HÁBITO 3: LAVAR A LOUÇA -->
+                    <div class="bg-sky-50/60 p-4 rounded-2xl border border-sky-100">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="font-bold text-slate-700 flex items-center gap-2 text-sm md:text-base">
+                                <span class="p-2 bg-sky-100 text-sky-600 rounded-xl"><i data-lucide="utensils" class="w-5 h-5"></i></span>
+                                Lavar Louça (Torneira ligada)
+                            </label>
+                            <span class="text-sky-700 font-extrabold bg-sky-100 px-3 py-1 rounded-xl text-sm" id="dish-val">15 min</span>
+                        </div>
+                        <input type="range" id="dish-input" min="0" max="30" value="15" class="w-full h-2 bg-sky-200 rounded-lg appearance-none cursor-pointer accent-sky-600">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1 font-semibold">
+                            <span>0 min (Ensaboar c/ fechada)</span>
+                            <span>15 min</span>
+                            <span>30 min</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Botão de Ação Rápida para Simulação -->
+            <div class="pt-2">
+                <button id="btn-eco" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 text-sm md:text-base">
+                    <i data-lucide="leaf" class="w-5 h-5"></i>
+                    Simular Hábitos Sustentáveis Ideal (Banho 5 min)
+                </button>
+            </div>
+        </section>
+
+        <!-- Painel de Resultados (Destaques e Métricas) -->
+        <section class="lg:col-span-5 flex flex-col justify-between space-y-6">
+
+            <!-- Card de Consumo Principal -->
+            <div class="bg-white rounded-3xl p-6 border border-sky-100 card-shadow">
+                <h3 class="text-xs uppercase font-bold text-slate-400 tracking-wider mb-2">Seu Consumo Estimado</h3>
+                
+                <div class="flex items-baseline gap-2 mb-1">
+                    <span class="text-4xl md:text-5xl font-black text-slate-800" id="daily-liters">0</span>
+                    <span class="text-lg font-bold text-slate-500">Litros / dia</span>
+                </div>
+                <p class="text-xs text-slate-500 font-medium mb-4">Aproximadamente <span font-bold id="monthly-liters" class="font-bold text-slate-700">0</span> Litros por mês por pessoa.</p>
+
+                <!-- Barra de Comparação com Meta da OMS -->
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs font-bold">
+                        <span>Status vs Meta Recom. (110L)</span>
+                        <span id="status-percent" class="text-red-500">Excesso</span>
+                    </div>
+                    <div class="w-full h-4 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                        <div id="progress-bar" class="h-full bg-sky-500 rounded-full transition-all duration-500" style="width: 50%;"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-tight" id="status-text">
+                        Ajuste os valores para atingir um uso consciente de água.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card Impacto Anual (Galões de 20L) -->
+            <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-6 border border-amber-200/80 card-shadow flex-grow flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase text-amber-800 tracking-wider">Economia Potencial Anual</span>
+                        <span class="p-1.5 bg-amber-200/60 text-amber-800 rounded-xl"><i data-lucide="container" class="w-5 h-5"></i></span>
+                    </div>
+                    <h4 class="text-xl font-black text-amber-950 mb-1">Se você mudar seus hábitos:</h4>
+                    <p class="text-xs text-amber-900/80">Economia estimada em 1 ano de uso consciente:</p>
+                </div>
+
+                <div class="my-4 bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-amber-200/60 flex items-center gap-4">
+                    <div class="p-3 bg-amber-500 text-white rounded-2xl font-black text-xl shadow-md flex items-center justify-center">
+                        🪣
+                    </div>
+                    <div>
+                        <span class="text-3xl md:text-4xl font-extrabold text-amber-900 block" id="saved-jugs">0</span>
+                        <span class="text-xs font-bold text-amber-800">Galões de 20 Litros salvos por ano!</span>
+                    </div>
+                </div>
+
+                <div class="text-xs text-amber-900/70 font-semibold flex items-center gap-2">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                    <span id="saved-liters-text">Isso equivale a cerca de 0 Litros economizados.</span>
+                </div>
+            </div>
+
+            <!-- Card Dica Rápida para Apresentação -->
+            <div class="bg-sky-900 text-white rounded-2xl p-4 text-xs font-medium flex items-center gap-3">
+                <i data-lucide="lightbulb" class="w-6 h-6 text-yellow-300 shrink-0"></i>
+                <span><strong>Dica para o estande:</strong> Explique aos visitantes que reduzir o banho de 15 para 5 minutos economiza até 90 litros por banho!</span>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="max-w-5xl mx-auto w-full text-center mt-6 text-xs text-slate-400">
+        <p>Projeto de Conscientização de Consumo de Água • 8º Ano Fundamental</p>
+    </footer>
+
+    <script>
+        // Inicialização dos Ícones Lucide
+        lucide.createIcons();
+
+        // Referências dos Elementos do DOM
+        const showerInput = document.getElementById('shower-input');
+        const showerVal = document.getElementById('shower-val');
+        
+        const teethOpenBtn = document.getElementById('teeth-open');
+        const teethClosedBtn = document.getElementById('teeth-closed');
+        const teethStatusBadge = document.getElementById('teeth-status-badge');
+
+        const dishInput = document.getElementById('dish-input');
+        const dishVal = document.getElementById('dish-val');
+
+        const dailyLitersEl = document.getElementById('daily-liters');
+        const monthlyLitersEl = document.getElementById('monthly-liters');
+        const progressBar = document.getElementById('progress-bar');
+        const statusPercent = document.getElementById('status-percent');
+        const statusText = document.getElementById('status-text');
+
+        const savedJugsEl = document.getElementById('saved-jugs');
+        const savedLitersText = document.getElementById('saved-liters-text');
+
+        const btnEco = document.getElementById('btn-eco');
+
+        // Estado do Formulário
+        let teethTapOpen = true; // true = aberta, false = fechada
+
+        // Fatores de Consumo Médio (Litros por minuto/ação)
+        // Banho: aprox 9 Litros por minuto
+        // Torneira de pia aberta: aprox 12 Litros por minuto (5 min = 60L vs fechada = 2L)
+        // Lavar louça: aprox 8 Litros por minuto de torneira aberta
+
+        function calculateWaterUsage() {
+            const showerTime = parseInt(showerInput.value);
+            const dishTime = parseInt(dishInput.value);
+
+            // Litros consumidos por dia em cada hábito
+            const showerLiters = showerTime * 9; 
+            const teethLiters = teethTapOpen ? (2 * 12) : 2; // 2 escovações por dia
+            const dishLiters = dishTime * 8;
+
+            const totalDaily = showerLiters + teethLiters + dishLiters;
+            const totalMonthly = totalDaily * 30;
+
+            // Atualizar Tela Principal
+            showerVal.textContent = `${showerTime} min`;
+            dishVal.textContent = `${dishTime} min`;
+            dailyLitersEl.textContent = totalDaily;
+            monthlyLitersEl.textContent = totalMonthly.toLocaleString('pt-BR');
+
+            // --- CÁLCULO DE ECONOMIA POTENCIAL ANUAL ---
+            // Cenário Ideal Sustentável: Banho 5min, Torneira Fechada, Louça 5min
+            const idealDaily = (5 * 9) + 2 + (5 * 8); // 45 + 2 + 40 = 87 Litros/dia
+            
+            let dailySavings = totalDaily - idealDaily;
+            if (dailySavings < 0) dailySavings = 0; // Se ele já gastar menos que o ideal
+
+            const yearlySavingsLiters = dailySavings * 365;
+            const yearlyJugsSaved = Math.floor(yearlySavingsLiters / 20); // Galões de 20 Litros
+
+            savedJugsEl.textContent = yearlyJugsSaved.toLocaleString('pt-BR');
+            savedLitersText.textContent = `Isso equivale a ${yearlySavingsLiters.toLocaleString('pt-BR')} Litros economizados em 1 ano!`;
+
+            // --- ATUALIZAR BARRA DE PROGRESSO & METAS ---
+            // Meta Ideal OMS = 110L/dia para necessidades básicas
+            const target = 110;
+            let percentage = Math.min(Math.round((totalDaily / target) * 100), 200);
+
+            progressBar.style.width = `${Math.min(percentage / 2, 100)}%`;
+
+            if (totalDaily <= target) {
+                progressBar.className = "h-full bg-emerald-500 rounded-full transition-all duration-500";
+                statusPercent.textContent = "Excelente! Dentro da Meta";
+                statusPercent.className = "text-emerald-600 font-bold";
+                statusText.textContent = "Parabéns! Seus hábitos estão em sintonia com o consumo consciente da ONU.";
+            } else if (totalDaily <= target * 1.5) {
+                progressBar.className = "h-full bg-amber-500 rounded-full transition-all duration-500";
+                statusPercent.textContent = "Atenção: Pouco Acima";
+                statusPercent.className = "text-amber-600 font-bold";
+                statusText.textContent = "Você está gastando um pouco a mais. Tente diminuir alguns minutos no banho.";
+            } else {
+                progressBar.className = "h-full bg-red-500 rounded-full transition-all duration-500";
+                statusPercent.textContent = "Consumo Elevado";
+                statusPercent.className = "text-red-600 font-bold";
+                statusText.textContent = "Alto desperdício de água! Veja a economia ao ajustar os controles ao lado.";
+            }
+        }
+
+        // Listeners dos Sliders
+        showerInput.addEventListener('input', calculateWaterUsage);
+        dishInput.addEventListener('input', calculateWaterUsage);
+
+        // Listeners dos Botões de Dentes
+        teethOpenBtn.addEventListener('click', () => {
+            teethTapOpen = true;
+            teethOpenBtn.className = "py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm border-2 transition-all flex items-center justify-center gap-2 border-sky-600 bg-sky-600 text-white";
+            teethClosedBtn.className = "py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm border-2 border-slate-200 bg-white text-slate-600 hover:border-sky-300 transition-all flex items-center justify-center gap-2";
+            teethStatusBadge.textContent = "Torneira Aberta";
+            teethStatusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-lg text-red-600 bg-red-50";
+            calculateWaterUsage();
+        });
+
+        teethClosedBtn.addEventListener('click', () => {
+            teethTapOpen = false;
+            teethClosedBtn.className = "py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm border-2 transition-all flex items-center justify-center gap-2 border-emerald-600 bg-emerald-600 text-white";
+            teethOpenBtn.className = "py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm border-2 border-slate-200 bg-white text-slate-600 hover:border-sky-300 transition-all flex items-center justify-center gap-2";
+            teethStatusBadge.textContent = "Torneira Fechada";
+            teethStatusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-lg text-emerald-700 bg-emerald-50";
+            calculateWaterUsage();
+        });
+
+        // Botão Simular Modo Sustentável
+        btnEco.addEventListener('click', () => {
+            showerInput.value = 5;
+            dishInput.value = 5;
+            if (teethTapOpen) {
+                teethClosedBtn.click();
+            } else {
+                calculateWaterUsage();
+            }
+        });
+
+        // Inicializar Cálculo na Carga da Página
+        window.onload = function() {
+            calculateWaterUsage();
+        };
+
+    </script>
+</body>
+</html>
